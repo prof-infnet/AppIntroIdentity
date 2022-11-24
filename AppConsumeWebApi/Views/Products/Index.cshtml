@@ -1,0 +1,63 @@
+﻿@model IEnumerable<AppConsumeWebApi.Models.Product>
+
+@{
+	ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+	<a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+	<thead>
+    	<tr>
+        	<th>
+            	@Html.DisplayNameFor(model => model.Id)
+        	</th>
+        	<th>
+            	@Html.DisplayNameFor(model => model.Name)
+        	</th>
+        	<th>
+            	@Html.DisplayNameFor(model => model.Description)
+        	</th>
+        	<th>
+            	@Html.DisplayNameFor(model => model.Price)
+        	</th>
+        	<th></th>
+    	</tr>
+	</thead>
+	<tbody>
+@foreach (var item in Model) {
+    	<tr>
+        	<td>
+            	@Html.DisplayFor(modelItem => item.Id)
+        	</td>
+        	<td>
+            	@Html.DisplayFor(modelItem => item.Name)
+        	</td>
+        	<td>
+            	@Html.DisplayFor(modelItem => item.Description)
+        	</td>
+        	<td>
+            	@Html.DisplayFor(modelItem => item.Price)
+        	</td>
+        	<td>
+            	@Html.ActionLink("Edit", "Update", new { id=item.Id  }) |
+            	
+        	</td>
+            	<td>
+                	<a asp-action="Update" asp-route-id="@item.Id">
+                    	<img src="/icons/edit.png" height="16" width="16"/>
+                	</a>
+            	</td>
+            	<td>
+                	<form asp-action="DeleteProduct" method="post">
+                    	<input type="hidden" value="@item.Id" name="productId" />
+                    	<input type="image" src="/icons/close.png" height="16" width="16" />
+                	</form>
+            	</td>
+    	</tr>
+}
+	</tbody>
+</table>
