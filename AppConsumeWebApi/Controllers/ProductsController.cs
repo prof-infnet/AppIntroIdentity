@@ -62,6 +62,9 @@ namespace AppConsumeWebApi.Controllers
 
             using (var httpClient = new HttpClient())
             {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+
                 using (var response = await httpClient.GetAsync("https://localhost:5001/api/Products/" + id))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
@@ -74,10 +77,14 @@ namespace AppConsumeWebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(Product product)
         {
+            var accessToken = HttpContext.Session.GetString("JWToken");
+
             Product receivedProduct = new Product();
 
             using (var httpClient = new HttpClient())
             {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
 
                 StringContent content = new StringContent(JsonConvert
                     .SerializeObject(product), Encoding.UTF8, "application/json");
@@ -97,8 +104,12 @@ namespace AppConsumeWebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int ProductId)
         {
+            var accessToken = HttpContext.Session.GetString("JWToken");
+
             using (var httpClient = new HttpClient())
             {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
                 using (var response = await httpClient.DeleteAsync("https://localhost:5001/api/Products/" + ProductId))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
